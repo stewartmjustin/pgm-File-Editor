@@ -39,7 +39,21 @@ package body imageprocess is
    min, max, minMaxDiff : integer;
 
    begin
-      getMinMax(min, max);
+      loop
+         getMinMax(min, max);
+         if min < 0 OR min > 255 then
+            put_line("Min is not within acceptable range (0 to 255)");
+         elsif max < 0 OR max > 255 then
+            put_line("Max is not within acceptable range (0 to 255)");
+         elsif max < min then
+            put_line("Max is less than min");
+         elsif max = min then
+            put_line("Max is equal to Min, divide by 0");
+            return;
+         else
+            exit;
+         end if;
+      end loop;
 
       minMaxDiff := max - min;
       
@@ -59,6 +73,8 @@ package body imageprocess is
          j := j + 1;
       end loop;
 
+      put_line("Image stretched successfully");
+
    end imagestretch;
 
    procedure imagelog(fileTemp : in out imageInfo) is
@@ -76,4 +92,88 @@ package body imageprocess is
          j := j + 1;
       end loop;
    end imagelog;
+
+   procedure histequal(fileTemp : in out imageInfo) is
+      histogram, final : histo;
+      pdf, ch : floatHisto;
+      i, j : integer := 1;
+      totalPixels : integer;
+   begin
+      histogram := makehist(fileTemp);
+
+      totalPixels := fileTemp.width * fileTemp.height;
+
+      loop
+         exit when i > 256;
+         pdf(i) := float(histogram(i))/float(totalPixels);
+         i := 1 + i;
+      end loop;
+
+      i := 2;
+
+      ch(1) := pdf(1);
+
+      loop
+         exit when i > 256;
+         ch(i) := pdf(i) + ch(i - 1);
+         i := i + 1;
+      end loop;
+
+      i := 1;
+
+      loop
+         exit when i > 256;
+         final(i) := integer(ch(i) * 255.0);
+         i := i + 1;
+      end loop;
+
+
+      --i := 1;
+      --loop
+         --exit when i > 256;
+         --put_line(i'image & pdf(i)'image);
+         --i := i + 1;
+      --end loop;
+
+      i := 1;
+
+      loop
+         exit when j > fileTemp.height;
+         i := 1;
+         loop
+            exit when i > fileTemp.width;
+            fileTemp.pixArray(j, i) := final(fileTemp.pixArray(j, i) + 1);
+            i := i + 1;
+         end loop;
+         j := j + 1;
+      end loop;
+
+
+   end histequal;
+
+   function makehist(fileTemp : in imageInfo) return histo is
+      j, i : integer := 1;
+      histogram : histo;
+   begin
+
+   loop
+      exit when i > 256;
+      histogram(i) := 0;
+      i := i + 1;
+   end loop;
+
+   loop
+      i := 1;
+      exit when j > fileTemp.height;
+      loop
+         exit when i > fileTemp.width;
+         histogram(fileTemp.pixArray(j, i) + 1) := histogram(fileTemp.pixArray(j, i) + 1) + 1;
+         i := i + 1;
+      end loop;
+      j := j + 1;
+   end loop;
+
+   return histogram;
+
+   end makehist;
 end imageprocess;

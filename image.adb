@@ -35,7 +35,7 @@ begin
    end loop;
 
    loop
-      exit when answer = 10;
+      exit when answer = 7;
       case answer is
          when 1 =>
             fileName := getfilename;
@@ -57,23 +57,29 @@ begin
          when 3 =>
             if recordExist = 1 then
                imageinv(fileTemp);
-               put_line("file inverted successfully");
+               put_line("Image inverted successfully");
             else
                put_line("No info to invert");
             end if;
          when 4 =>
             if recordExist = 1 then
                imagestretch(fileTemp);
-               put_line("File stretched successfully");
             else
                put_line("No info to stretch");
             end if;
          when 5 =>
             if recordExist = 1 then
                imagelog(fileTemp);
-               put_line("Log() applied to file successfully");
+               put_line("Log() applied to image successfully");
             else
                put_line("No info to Log()");
+            end if;
+         when 6 =>
+            if recordExist = 1 then
+               histequal(fileTemp);
+               put_line("Image equalized successfully");
+            else
+               put_line("No info to Equalize");
             end if;
          when others =>
             put_line("Not an acceptable answer:" & answer'image);
@@ -86,7 +92,8 @@ begin
       put_line("3: Image Inversion");
       put_line("4: Image Stretch");
       put_line("5: Image Log");
-      put_line("10: exit");
+      put_line("6: Histogram Equalization");
+      put_line("7: exit");
       put("Enter Your Choice: ");
       get(answer);
       skip_line;
