@@ -10,4 +10,5 @@ package imageprocess is
    procedure imageinv(fileTemp : in out imageInfo);
    procedure imagelog(fileTemp : in out imageInfo);
    procedure imagestretch(fileTemp : in out imageInfo);
+   procedure getMinMax(min : out integer; max : out integer);
 end imageprocess;

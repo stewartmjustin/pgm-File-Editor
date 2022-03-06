@@ -10,10 +10,17 @@ package body imagepgm is
    fp : file_type;
    fileTemp : imageInfo;
    countW, countH : integer := 1;
+   errorInfo : imageInfo;
 
    begin
       open(fp, in_file, To_String(fileName));
       get_line(fp, magic);
+      if magic /= "P2" then
+         close(fp);
+         errorInfo.maxPixel := -1;
+         put_line("File read successfully");
+         return errorInfo;
+      end if;
       get(fp, fileTemp.width);
       get(fp, fileTemp.height);
       get(fp, fileTemp.maxPixel);

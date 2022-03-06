@@ -1,4 +1,6 @@
 with Ada.Text_IO; use Ada.Text_IO;
+with ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+with Ada.Numerics.Elementary_Functions; use Ada.Numerics.Elementary_Functions;
 
 package body imageprocess is
    procedure imageinv(fileTemp : in out imageInfo) is
@@ -21,35 +23,25 @@ package body imageprocess is
       end loop;
    end imageinv;
 
+   procedure getMinMax(min : out integer; max : out integer) is
+   begin
+      put("Enter min: ");
+      get(min);
+      put_line("");
+      put("Enter max: ");
+      get(max);
+      put_line("");
+   end getMinMax;
+
    procedure imagestretch(fileTemp : in out imageInfo) is
 
    i, j : integer := 1;
    min, max, minMaxDiff : integer;
 
    begin
-      max := fileTemp.pixArray(1, 1);
-      min := fileTemp.pixArray(1, 1);
-      loop
-         exit when j > fileTemp.height;
-         i := 1;
-         loop
-            if (fileTemp.pixArray(j, i) > max) then
-               max := fileTemp.pixArray(j, i);
-            end if;
-            if (fileTemp.pixArray(j, i) < min) then
-               min := fileTemp.pixArray(j, i);
-            end if;
-            exit when i = fileTemp.width;
-            i := i + 1;
-         end loop;
-         j := j + 1;
-      end loop;
+      getMinMax(min, max);
 
       minMaxDiff := max - min;
-
-      put_line(min'image);
-      put_line(max'image);
-      put_line(minMaxDiff'image);
       
       i := 1;
       j := 1;
@@ -58,7 +50,6 @@ package body imageprocess is
          exit when j > fileTemp.height;
          i := 1;
          loop
-            --fileTemp.pixArray(j, i) := 255 * ((fileTemp.pixArray(j, i) - min) / max - min);
             fileTemp.pixArray(j, i) := fileTemp.pixArray(j, i) - min;
             fileTemp.pixArray(j, i) := fileTemp.pixArray(j, i) * 255;
             fileTemp.pixArray(j, i) := fileTemp.pixArray(j, i) / minMaxDiff;
@@ -71,7 +62,18 @@ package body imageprocess is
    end imagestretch;
 
    procedure imagelog(fileTemp : in out imageInfo) is
+      tmp : float;
+      i, j : integer := 1;
    begin
-      put_line("imageLog");
+      tmp := 255.0/Log(255.0);
+      loop
+         exit when j > fileTemp.height;
+         loop
+            exit when i > fileTemp.width;
+            fileTemp.pixArray(j, i) := integer(Log(float(fileTemp.pixArray(j, i) + 1)) * tmp);
+            i := i + 1;
+         end loop;
+         j := j + 1;
+      end loop;
    end imagelog;
 end imageprocess;

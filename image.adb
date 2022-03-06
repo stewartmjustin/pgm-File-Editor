@@ -40,8 +40,12 @@ begin
          when 1 =>
             fileName := getfilename;
             fileTemp := readpgm(fileName);
-            put_line("File read successfully");
-            recordExist := 1;
+            if fileTemp.maxPixel = -1 then
+               put_line("Magic indentifier incorrect");
+            else
+               recordExist := 1;
+               put_line("File read successfully");
+            end if;
          when 2 =>
             if recordExist = 1 then
                fileName := getfilename;
@@ -53,51 +57,42 @@ begin
          when 3 =>
             if recordExist = 1 then
                imageinv(fileTemp);
+               put_line("file inverted successfully");
             else
                put_line("No info to invert");
             end if;
          when 4 =>
             if recordExist = 1 then
                imagestretch(fileTemp);
+               put_line("File stretched successfully");
             else
                put_line("No info to stretch");
             end if;
+         when 5 =>
+            if recordExist = 1 then
+               imagelog(fileTemp);
+               put_line("Log() applied to file successfully");
+            else
+               put_line("No info to Log()");
+            end if;
          when others =>
+            put_line("Not an acceptable answer:" & answer'image);
             answer := 0;
       end case;
+      put_line("");
       put_line("Menu");
       put_line("1: Read in a .pgm file");
       put_line("2: Write to a .pgm file");
       put_line("3: Image Inversion");
       put_line("4: Image Stretch");
+      put_line("5: Image Log");
       put_line("10: exit");
       put("Enter Your Choice: ");
       get(answer);
       skip_line;
+      put_line("");
    end loop;
 
    put_line("Exiting program...");
 
-   --fileName := getfilename;
-   --fileTemp := readpgm(fileName);
-
-   --loop
-      --exit when j > fileTemp.height;
-      --i := 1;
-      --loop
-         --exit when i > fileTemp.width;
-         --put(fileTemp.pixArray(j, i)'image);
-         --i := i + 1;
-      --end loop;
-      --new_line;
-      --j := 1 + j;
-   --end loop;
-
-   --put_line("Width: " & fileTemp.width'image & ", height: " & fileTemp.height'image & ", max: " & fileTemp.maxPixel'image);
-   --Put_Line(fileName);
-   --imageinv;
-   --imagestretch;
-   --imagelog;
-   --readpgm;
-   --writepgm;
 end Image;
