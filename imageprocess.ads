@@ -1,3 +1,4 @@
+--Justin Stewart, 1052722, jstewa28@uoguelph.ca
 package imageprocess is
    type matrix is array(1..500, 1..500) of integer;
    type histo is array(1..256) of integer;

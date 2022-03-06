@@ -1,3 +1,4 @@
+--Justin Stewart, 1052722, jstewa28@uoguelph.ca
 with imageprocess; use imageprocess;
 with ada.strings.unbounded; use ada.strings.unbounded;
 

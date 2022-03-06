@@ -1,17 +1,24 @@
+--Justin Stewart, 1052722, jstewa28@uoguelph.ca
 with Ada.Text_IO; use Ada.Text_IO;
 with ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with ada.strings.unbounded; use ada.strings.unbounded;
 with ada.strings.unbounded.Text_IO; use ada.strings.unbounded.Text_IO;
 with imageprocess; use imageprocess;
 with imagepgm; use imagepgm;
+
+--Image serves as the main of the program, allows the user to select which subprogram to call
 procedure Image is
+   --Declaring variables
+
    fileName : unbounded_string;
    fileTemp : imageInfo;
    answer : integer := 0;
    recordExist : integer := 0;
    j, i : integer := 1;
 
+   --Function retrieves a file name from the user for file I/O
    function getfilename return unbounded_string is
+      --Declaring variables
       temp: unbounded_string;
    begin
       Put("Enter The File Name: ");
@@ -20,7 +27,7 @@ procedure Image is
    end getfilename;
    
 begin
-
+   --initialize the record
    fileTemp.width := -1;
    fileTemp.height := -1;
    fileTemp.maxPixel := -1;
@@ -34,9 +41,13 @@ begin
       j := j + 1;
    end loop;
 
+   --loops through the options of the menu, allowing the user
+   --to select the subprogram they would like
    loop
       exit when answer = 7;
       case answer is
+
+         --case 1 is for retreving image info from a file
          when 1 =>
             fileName := getfilename;
             fileTemp := readpgm(fileName);
@@ -46,6 +57,8 @@ begin
                recordExist := 1;
                put_line("File read successfully");
             end if;
+
+         --case 2 is for writing image info to a file
          when 2 =>
             if recordExist = 1 then
                fileName := getfilename;
@@ -54,6 +67,8 @@ begin
             else
                put_line("No info to write");
             end if;
+
+         --case 3 is for inverting an image
          when 3 =>
             if recordExist = 1 then
                imageinv(fileTemp);
@@ -61,12 +76,16 @@ begin
             else
                put_line("No info to invert");
             end if;
+
+         --case 4 is for stretching an image
          when 4 =>
             if recordExist = 1 then
                imagestretch(fileTemp);
             else
                put_line("No info to stretch");
             end if;
+
+         --case 5 is for applying Log() to the image
          when 5 =>
             if recordExist = 1 then
                imagelog(fileTemp);
@@ -74,6 +93,8 @@ begin
             else
                put_line("No info to Log()");
             end if;
+
+         --case 6 is for applying histogram equilization to the image
          when 6 =>
             if recordExist = 1 then
                histequal(fileTemp);
@@ -81,10 +102,13 @@ begin
             else
                put_line("No info to Equalize");
             end if;
+
          when others =>
             put_line("Not an acceptable answer:" & answer'image);
             answer := 0;
       end case;
+
+      --The following is the menu for selecting what the program should do
       put_line("");
       put_line("Menu");
       put_line("1: Read in a .pgm file");
