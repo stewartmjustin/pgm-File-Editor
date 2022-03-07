@@ -1,4 +1,7 @@
 --Justin Stewart, 1052722, jstewa28@uoguelph.ca
+
+--imageprocess is a package that processes images
+--and transforms them in a variety of ways at the users behest
 package imageprocess is
    type matrix is array(1..500, 1..500) of integer;
    type histo is array(1..256) of integer;

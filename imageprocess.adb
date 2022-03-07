@@ -3,20 +3,28 @@ with Ada.Text_IO; use Ada.Text_IO;
 with ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with Ada.Numerics.Elementary_Functions; use Ada.Numerics.Elementary_Functions;
 
+--imageprocess deals with modifying images
 package body imageprocess is
+
+   --imageinv inverts an image
    procedure imageinv(fileTemp : in out imageInfo) is
 
    i, j : integer := 1;
 
    begin
+
+      --loops throught the file and inverts every pixel
       loop
          exit when j > fileTemp.height;
          i := 1;
          loop
             fileTemp.pixArray(j, i) := fileTemp.maxPixel - fileTemp.pixArray(j, i);
+
+            --flips the sign of negative pixels
             if fileTemp.pixArray(j, i) < 0 then
                fileTemp.pixArray(j, i) := fileTemp.pixArray(j, i) * (-1);
             end if;
+
             exit when i = fileTemp.width;
             i := i + 1;
          end loop;
@@ -24,6 +32,8 @@ package body imageprocess is
       end loop;
    end imageinv;
 
+   --procedure that gets the min and max values from the user
+   --used for the imagestretch subprogram
    procedure getMinMax(min : out integer; max : out integer) is
    begin
       put("Enter min: ");
@@ -34,12 +44,16 @@ package body imageprocess is
       put_line("");
    end getMinMax;
 
+   --stretches an image
    procedure imagestretch(fileTemp : in out imageInfo) is
 
    i, j : integer := 1;
    min, max, minMaxDiff : integer;
 
    begin
+
+      --collects the min and max values from the user
+      --checks to see if they are correct and loops otherwise
       loop
          getMinMax(min, max);
          if min < 0 OR min > 255 then
@@ -61,6 +75,7 @@ package body imageprocess is
       i := 1;
       j := 1;
 
+      --loop through the array and stretch every pixel in the immage
       loop
          exit when j > fileTemp.height;
          i := 1;
@@ -78,11 +93,14 @@ package body imageprocess is
 
    end imagestretch;
 
+   --Applies the Log() function to the image
    procedure imagelog(fileTemp : in out imageInfo) is
       tmp : float;
       i, j : integer := 1;
    begin
       tmp := 255.0/Log(255.0);
+
+      --loops throught and applies Log() to all pixels in the image
       loop
          exit when j > fileTemp.height;
          loop
@@ -94,12 +112,14 @@ package body imageprocess is
       end loop;
    end imagelog;
 
+   --Applies histogram equalisation to an image
    procedure histequal(fileTemp : in out imageInfo) is
       histogram, final : histo;
       pdf, ch : floatHisto;
       i, j : integer := 1;
       totalPixels : integer;
    begin
+      --creates a histogram of the image
       histogram := makehist(fileTemp);
 
       totalPixels := fileTemp.width * fileTemp.height;
@@ -138,6 +158,7 @@ package body imageprocess is
 
       i := 1;
 
+      --equalizes the image with its histogram
       loop
          exit when j > fileTemp.height;
          i := 1;
@@ -152,6 +173,7 @@ package body imageprocess is
 
    end histequal;
 
+   --creates and returns the histogram of an image
    function makehist(fileTemp : in imageInfo) return histo is
       j, i : integer := 1;
       histogram : histo;
