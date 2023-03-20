@@ -1,4 +1,4 @@
---Justin Stewart, 1052722, jstewa28@uoguelph.ca
+--Justin Stewart, stewartm.justin@outlook.com
 
 --imageprocess is a package that processes images
 --and transforms them in a variety of ways at the users behest

@@ -1,4 +1,4 @@
---Justin Stewart, 1052722, jstewa28@uoguelph.ca
+--Justin Stewart, stewartm.justin@outlook.com
 with imageprocess; use imageprocess;
 with ada.strings.unbounded; use ada.strings.unbounded;
 

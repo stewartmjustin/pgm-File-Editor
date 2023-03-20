@@ -1,4 +1,4 @@
---Justin Stewart, 1052722, jstewa28@uoguelph.ca
+--Justin Stewart, stewartm.justin@outlook.com
 with Ada.Text_IO; use Ada.Text_IO;
 with ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with ada.strings.unbounded; use ada.strings.unbounded;
