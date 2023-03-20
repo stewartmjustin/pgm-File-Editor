@@ -83,6 +83,11 @@ package body imageprocess is
             fileTemp.pixArray(j, i) := fileTemp.pixArray(j, i) - min;
             fileTemp.pixArray(j, i) := fileTemp.pixArray(j, i) * 255;
             fileTemp.pixArray(j, i) := fileTemp.pixArray(j, i) / minMaxDiff;
+            if fileTemp.pixArray(j, i) < 0 then
+               fileTemp.pixArray(j, i) := 0;
+            elsif fileTemp.pixArray(j, i) > 255 then
+               fileTemp.pixArray(j, i) := 255;
+            end if;
             exit when i = fileTemp.width;
             i := i + 1;
          end loop;
