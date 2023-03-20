@@ -1,5 +1,13 @@
 # pgm File Reader
 
+## Files
+
+image.adb, imagepgm.ads, imageprocess.ads, imagepgm.adb, imageprocess.adb, makefile, README.md
+
+Created by Justin Stewart
+
+Email: stewartm.justin@outlook.com
+
 ## Compile
 
 enter 'make' into the command line.
