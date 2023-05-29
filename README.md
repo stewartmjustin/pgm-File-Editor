@@ -38,7 +38,7 @@ Contrast stretches your image.
 
 ### 5: Image Log
 
-Logorithmically Process your Image.
+Logorithmically processes your image.
 
 ### 6: Histogram Equalization
 
@@ -50,9 +50,9 @@ Exit the program.
 
 # Limitations
 
-Your image must have a maximum length of 500.
+Your image must have a maximum length of 500 px.
 
-Your image must have a maximum width of 500.
+Your image must have a maximum width of 500 px.
 
 Your image must not contain any comments.
 
